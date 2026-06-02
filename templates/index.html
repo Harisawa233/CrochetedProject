@@ -4,47 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>钩针图纸生成器</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="bg-gray-50 min-h-screen p-4 md:p-10">
-    <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg">
-        <h1 class="text-2xl font-bold mb-6 text-gray-800">🧶 钩针图纸生成器</h1>
+<body>
+    <div class="container">
+        <h1>🧶 钩针助手</h1>
+        <p class="subtitle"></p>
         
         <form id="uploadForm" class="space-y-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700">上传图片</label>
-                <input type="file" name="file" id="fileInput" class="w-full mt-1 p-2 border rounded-lg" required>
+                <label class="block text-sm font-medium">上传可爱的图片</label>
+                <input type="file" name="file" id="fileInput" required>
             </div>
             
             <div class="flex gap-4">
                 <div class="flex-1">
-                    <label class="block text-sm font-medium text-gray-700">宽度 (针数)</label>
-                    <input type="number" name="width" id="widthInput" class="w-full mt-1 p-2 border rounded-lg" required>
+                    <label class="block text-sm font-medium">宽度 (针数)</label>
+                    <input type="number" name="width" id="widthInput" required>
                 </div>
                 <div class="flex-1">
-                    <label class="block text-sm font-medium text-gray-700">高度 (行数)</label>
-                    <input type="number" name="height" id="heightInput" class="w-full mt-1 p-2 border rounded-lg" required>
+                    <label class="block text-sm font-medium">高度 (行数)</label>
+                    <input type="number" name="height" id="heightInput" required>
                 </div>
             </div>
 
-            <button type="submit" id="submitBtn" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+            <button type="submit" id="submitBtn">
                 生成图纸
             </button>
         </form>
 
-        <div id="result" class="hidden mt-8 text-center border-t pt-8">
+        <div id="result" class="hidden result-box">
             <h3 class="text-lg font-semibold mb-4">预览结果：</h3>
             <div class="mb-4">
-                <img id="preview" src="" class="mx-auto max-w-full rounded shadow-md">
+                <img id="preview" src="" alt="生成的图纸">
             </div>
-            <a id="downloadLink" href="#" class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">
+            <a id="downloadLink" href="#" class="btn">
                 下载图纸
             </a>
         </div>
     </div>
 
     <script>
-        // 上传时显示“生成中”的视觉反馈
         document.getElementById('uploadForm').onsubmit = async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
@@ -63,7 +63,6 @@
             btn.disabled = false;
         };
 
-        // 自动计算比例
         document.getElementById('fileInput').onchange = async (e) => {
             if (!e.target.files[0]) return;
             const formData = new FormData();

@@ -71,5 +71,5 @@ def uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
 if __name__ == '__main__':
-    # 运行在 5000 端口
-    app.run(debug=True, port=5000)
+    # 将 host 设置为 '0.0.0.0'
+    app.run(host='0.0.0.0', port=5000)

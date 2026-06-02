@@ -1,17 +1,19 @@
-# 1. 使用轻量级的 Python 作为基础镜像
+# 使用轻量级 Python 镜像
 FROM python:3.11-slim
 
-# 2. 设置工作目录
+# 设置容器内的工作目录
 WORKDIR /app
 
-# 3. 复制你的代码进去
+# 将当前目录下的所有文件复制到容器的 /app 目录
 COPY . .
 
-# 4. 安装依赖
-RUN pip install Flask Pillow
+# 安装依赖项（包括 gunicorn，它是生产环境的推荐服务器）
+RUN pip install --no-cache-dir Flask Pillow gunicorn
 
-# 5. 开放 5000 端口
+# 暴露端口（虽然 Render 会动态分配，但声明一下是好习惯）
 EXPOSE 5000
 
-# 6. 运行程序
-CMD ["python", "app.py"]
+# 使用 gunicorn 启动应用
+# -b 0.0.0.0:5000: 绑定到所有网络接口
+# app:app: 指的是 app.py 文件中的 app 对象
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
